@@ -1,0 +1,532 @@
+﻿<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="author" content="INN STUDIO">
+    <meta name="theme-color" content="#FF4081">
+
+    <title>动漫无损音乐下载资讯站_ACG漫音社_专注分享二次元高品质音乐~</title>
+    <!-- DX-Seo plugin start -->
+    <meta name="keywords" content="无损音乐下载,动漫音乐,动漫音乐下载,无损音乐下载网站,无损音乐免费下载">
+    <meta name="description"
+          content="ACG漫音社是国内最新最全的动漫音乐下载网站，免费提供ACG动漫歌曲在线试听、ACG动漫无损音乐下载等服务，满足您的全方位的听歌需求。一切ACG动漫音乐下载尽在ACG漫音社!">
+    <!-- DX-Seo plugin end -->
+    <meta name="keywords" content="无损音乐下载,动漫音乐,动漫音乐下载,无损音乐下载网站,无损音乐免费下载">
+    <meta name="description"
+          content="ACG漫音社是国内最新最全的动漫音乐下载网站，免费提供ACG动漫歌曲在线试听、ACG动漫无损音乐下载等服务，满足您的全方位的听歌需求。一切ACG动漫音乐下载尽在ACG漫音社!">
+
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+    <style type="text/css">
+        .recentcomments a {
+            display: inline !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    </style>
+    <style id="custom-background-css">
+        body.custom-background {
+            background-color: #eeeeee;
+        }
+    </style>
+
+
+</head>
+<body class="home blog">
+
+<div th:replace="common/top :: html"></div>
+
+<div class="theme_custom_slidebox-container theme_custom_slidebox-candy">
+    <div class="area-overdely"></div>
+    <div class="area-blur">
+        <div id="img_bg1" class="item active">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input1" type="text" hidden th:value="${worksRandom?.get(0).workBackground}">
+        </div>
+        <div id="img_bg2" class="item">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input2" type="text" hidden th:value="${worksRandom?.get(1).workBackground}">
+        </div>
+        <div id="img_bg3" class="item">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input3" type="text" hidden th:value="${worksRandom?.get(2).workBackground}">
+        </div>
+        <div id="img_bg4" class="item">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input4" type="text" hidden th:value="${worksRandom?.get(3).workBackground}">
+        </div>
+        <div id="img_bg5" class="item">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input5" type="text" hidden th:value="${worksRandom?.get(4).workBackground}">
+        </div>
+        <div id="img_bg6" class="item">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input6" type="text" hidden th:value="${worksRandom?.get(5).workBackground}">
+        </div>
+        <div id="img_bg7" class="item">
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <input id="bg_input7" type="text" hidden th:value="${worksRandom?.get(6).workBackground}">
+        </div>
+    </div>
+    <div id="theme_custom_slidebox" class="g">
+        <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+        <div id="div_img_big" class="area-main">
+
+            <div class="item" th:each="work : ${worksRandom}">
+                <a class="img" th:href="@{'/worksDisplay?workId='+${work?.workId}}">
+                    <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                    <img th:src="@{../acgPic/work-background/{filename}(filename=${work?.workBackground})}"
+                         width="800" height="500">
+                </a>
+                <a class="des" th:href="@{'/worksDisplay?workId='+${work?.workId}}">
+                    <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                    <span class="title" th:text="${work?.workTitle}"></span>
+                    <span class="sub-title" th:text="${work?.workDigest}"></span>
+                    <span class="cats"><span style="background-color:rgba(134,183,103,.8);" th:text="${work?.typeName}"></span></span>
+                    <span class="more">详细 &raquo;</span>
+                </a>
+            </div>
+
+
+        </div>
+
+        <div id="bigImg_div" class="area-thumbnail">
+
+
+            <!--/*@thymesVar id="worksRandom" type="java.util.List"*/-->
+            <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+            <a class="item" th:each="work : ${worksRandom}" th:href="@{'/worksDisplay?workId='+${work?.workId}}">
+                <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                <img th:src="@{../acgPic/work-background/{filename}(filename=${work?.workBackground})}" alt="placeholder" width="800" height="500">
+                <h2 th:text="${work?.workTitle}" style="max-height: 100px;overflow: hidden;"></h2>
+            </a>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--推荐-->
+<div class="g">
+    <div class="recomm-container hidden-sm">
+
+        <div class="home-recomm mod panel">
+            <div class="heading">
+                <h2 class="title">
+                    <span class="bg">
+                        <div href="javascript:;">
+                            <i class="fa fa-star-o"></i> 推荐
+                        </div>
+                    </span>
+                </h2>
+            </div>
+
+            <div class="row">
+
+                <!--/*@thymesVar id="worksInfosLimit4" type="java.util.List"*/-->
+                <article class="g-tablet-1-2 g-tablet-1-4 card lg " th:each="work : ${worksInfosLimit4}">
+                    <div class="card-bg">
+                        <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                        <a th:href="@{'/worksDisplay?workId='+${work?.workId}}" th:title="${work?.workTitle}"
+                           class="thumbnail-container">
+                            <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${work?.workBackground})}"
+                                 th:alt="${work?.workTitle}" width="320" height="200"/>
+                            <div class="card-cat">
+                                <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                                <span style="background-color:rgba(134,183,103,.8);" th:text="${work?.typeName}"></span>
+                            </div>
+                        </a>
+
+                        <a th:href="@{'/worksDisplay?workId='+${work?.workId}}" th:title="${work?.workTitle}" class="card-title" target="_blank">
+                            <h3 th:text="${work?.workTitle}"></h3>
+                        </a>
+                        <div class="card-meta">
+                            <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                            <a th:href="@{'authorIndex?uid='+${work?.user?.uid}}" class="meta author" th:title="${work?.user?.nickname}">
+                                <img width="32" height="32" th:src="@{../acgPic/head-image/{filename}(filename=${work?.user?.headImage})}"
+                                      th:alt="${work?.user?.nickname}" class="avatar">
+                                <span class="tx" th:text="${work?.user?.nickname}"></span>
+                            </a>
+                            <span class="meta views" title="查看数">
+                                <i class="fa fa-play-circle" th:text="${work?.lookCount}"></i>
+                            </span>
+
+                            <!-- comments count -->
+                            <span class="meta comments-count" title="猫爪">
+						        <i class="fa fa-paw" th:text="${work?.bombCount}"></i>
+                            </span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!--动漫-->
+    <div class="row">
+        <div id="main" class="g-desktop-3-4">
+
+            <div id="homebox-1466438096161" class="homebox panel mod">
+                <div class="heading">
+                    <h2 class="title">
+                        <span class="bg">
+                            <a th:href="@{/acgAnime}" title="更多动漫">
+                                <i class="fa fa-home"></i> 动漫
+                            </a>
+                        </span>
+                    </h2>
+                    <div class="extra"></div>
+                </div>
+                <div class="row">
+
+                    <!--/*@thymesVar id="acgAnimeLimit" type="java.util.List"*/-->
+                    <article th:each="anime : ${acgAnimeLimit}" class="g-tablet-1-3 card sm post-108147 post type-post status-publish format-standard has-post-thumbnail hentry">
+                        <div class="card-bg">
+                            <!--/*@thymesVar id="anime" type="com.entity.WorksInfo"*/-->
+                            <a th:href="@{'/worksDisplay?workId='+${anime?.workId}}" class="thumbnail-container" target="_blank">
+                                <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${anime?.workBackground})}" width="320" height="200">
+                            </a>
+                            <a th:href="@{'/worksDisplay?workId='+${anime?.workId}}" class="card-title" target="_blank">
+                                <h3 th:text="${anime?.workTitle}"></h3>
+                            </a>
+                            <div class="card-meta">
+                                <a th:href="@{'authorIndex?uid='+${anime?.user?.uid}}" class="meta author" target="_blank">
+                                    <img width="32" height="32" th:src="@{../acgPic/head-image/{filename}(filename=${anime?.user?.headImage})}" class="avatar">
+                                    <span class="tx" th:text="${anime?.user?.nickname}"></span>
+                                </a>
+                                <time class="meta time" th:text="${#dates.format(anime?.workTime,'yyyy-MM-dd HH:mm')}"></time>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <a th:href="@{/acgAnime}" class="below-more btn btn-block btn-default">
+                    更多动漫 <i class="fa fa-caret-right"></i>
+                </a>
+            </div>
+
+
+            <!--无损ACG-->
+            <div id="homebox-1466438205076" class="homebox panel mod">
+                <div class="heading">
+                    <h2 class="title">
+                        <span class="bg">
+                            <a th:href="@{/acgMusic}" title="更多无损ACG">
+                                <i class="fa fa-music"></i> 无损ACG
+                            </a>
+                        </span>
+                    </h2>
+                    <div class="extra"></div>
+                </div>
+                <div class="row">
+                    <!--/*@thymesVar id="acgMusicLimit" type="java.util.List"*/-->
+                    <article th:each="music : ${acgMusicLimit}" class="g-tablet-1-3 card sm post-108147 post type-post status-publish format-standard has-post-thumbnail hentry">
+                        <div class="card-bg">
+                            <!--/*@thymesVar id="music" type="com.entity.WorksInfo"*/-->
+                            <a th:href="@{'/worksDisplay?workId='+${music?.workId}}" class="thumbnail-container" target="_blank">
+                                <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${music?.workBackground})}" width="320" height="200">
+                            </a>
+                            <a th:href="@{'/worksDisplay?workId='+${music?.workId}}" class="card-title" target="_blank">
+                                <h3 th:text="${music?.workTitle}"></h3>
+                            </a>
+                            <div class="card-meta">
+                                <a th:href="@{'authorIndex?uid='+${music?.user?.uid}}" class="meta author" target="_blank">
+                                    <img width="32" height="32" th:src="@{../acgPic/head-image/{filename}(filename=${music?.user?.headImage})}" class="avatar">
+                                    <span class="tx" th:text="${music?.user?.nickname}"></span>
+                                </a>
+                                <time class="meta time" th:text="${#dates.format(music?.workTime,'yyyy-MM-dd HH:mm')}"></time>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <a th:href="@{/acgMusic}" class="below-more btn btn-block btn-default">
+                    更多无损ACG <i class="fa fa-caret-right"></i>
+                </a>
+            </div>
+
+
+
+            <!--游戏ACG-->
+            <div id="homebox-1466438242314" class="homebox panel mod">
+                <div class="heading">
+                    <h2 class="title">
+                        <span class="bg">
+                            <a th:href="@{/acgGame}" title="更多游戏">
+                                <i class="fa fa-gamepad"></i> 游戏
+                            </a>
+                        </span>
+                    </h2>
+                    <div class="extra"></div>
+                </div>
+                <div class="row">
+                    <!--/*@thymesVar id="acgGameLimit" type="java.util.List"*/-->
+                    <article th:each="game : ${acgGameLimit}" class="g-tablet-1-3 card sm post-108147 post type-post status-publish format-standard has-post-thumbnail hentry">
+                        <div class="card-bg">
+                            <!--/*@thymesVar id="game" type="com.entity.WorksInfo"*/-->
+                            <a th:href="@{'/worksDisplay?workId='+${game?.workId}}" class="thumbnail-container" target="_blank">
+                                <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${game?.workBackground})}" width="320" height="200">
+                            </a>
+                            <a th:href="@{'/worksDisplay?workId='+${game?.workId}}" class="card-title" target="_blank">
+                                <h3 th:text="${game?.workTitle}"></h3>
+                            </a>
+                            <div class="card-meta">
+                                <a th:href="@{'authorIndex?uid='+${game?.user?.uid}}" class="meta author" target="_blank">
+                                    <img width="32" height="32" th:src="@{../acgPic/head-image/{filename}(filename=${game?.user?.headImage})}" class="avatar">
+                                    <span class="tx" th:text="${game?.user?.nickname}"></span>
+                                </a>
+                                <time class="meta time" th:text="${#dates.format(game?.workTime,'yyyy-MM-dd HH:mm')}"></time>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <a th:href="@{/acgGame}" class="below-more btn btn-block btn-default">
+                    更多游戏 <i class="fa fa-caret-right"></i>
+                </a>
+            </div>
+
+
+
+            <div id="homebox-1523179611925" class="homebox panel mod">
+                <div class="heading">
+                    <h2 class="title">
+                        <span class="bg">
+                            <a th:href="@{/acgPhoto}" title="更多图片">
+                                <i class="fa fa-photo"></i> 图片
+                            </a>
+                        </span>
+                    </h2>
+                    <div class="extra"></div>
+                </div>
+
+                <div class="row">
+                    <!--/*@thymesVar id="acgPhotoLimit" type="java.util.List"*/-->
+                    <article th:each="photo : ${acgPhotoLimit}" class="g-tablet-1-3 card sm post-108147 post type-post status-publish format-standard has-post-thumbnail hentry">
+                        <div class="card-bg">
+                            <!--/*@thymesVar id="photo" type="com.entity.WorksInfo"*/-->
+                            <a th:href="@{'/worksDisplay?workId='+${photo?.workId}}" class="thumbnail-container" target="_blank">
+                                <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${photo?.workBackground})}" width="320" height="200">
+                            </a>
+                            <a th:href="@{'/worksDisplay?workId='+${photo?.workId}}" class="card-title" target="_blank">
+                                <h3 th:text="${photo?.workTitle}"></h3>
+                            </a>
+                            <div class="card-meta">
+                                <a th:href="@{'authorIndex?uid='+${photo?.user?.uid}}" class="meta author" target="_blank">
+                                    <img width="32" height="32" th:src="@{../acgPic/head-image/{filename}(filename=${photo?.user?.headImage})}" class="avatar">
+                                    <span class="tx" th:text="${photo?.user?.nickname}"></span>
+                                </a>
+                                <time class="meta time" th:text="${#dates.format(photo?.workTime,'yyyy-MM-dd HH:mm')}"></time>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+                <a th:href="@{/acgPhoto}" class="below-more btn btn-block btn-default">
+                    更多图片 <i class="fa fa-caret-right"></i>
+                </a>
+            </div>
+        </div>
+
+
+
+
+        <!-- /#main -->
+        <!--用户积分排行榜-->
+        <div id="sidebar-container" class="g-desktop-1-4">
+            <div id="sidebar" class="widget-area" role="complementary">
+                <aside id="widget_point_rank-2">
+                    <div class="widget widget_point_rank">
+
+                        <div class="heading ">
+                            <h2 class="widget-title"><i class="fa fa-bar-chart">
+                                </i> 用户积分排行
+                            </h2>
+                        </div>
+
+                        <div class="content">
+                            <div class="user-lists row">
+
+                                <!--/*@thymesVar id="usersLimit" type="java.util.List"*/-->
+                                <div class="user-list g-phone-1-3" th:each="user : ${usersLimit}">
+                                    <!--/*@thymesVar id="user" type="com.entity.User"*/-->
+                                    <a th:href="@{'authorIndex?uid='+${user?.uid}}" th:title="${user?.nickname}" target="_blank">
+                                        <div class="avatar-container">
+                                            <img th:src="@{../acgPic/head-image/{filename}(filename=${user?.headImage})}"
+                                                                       th:alt="${user?.nickname}" class="avatar">
+                                        </div>
+                                        <h3 class="author" th:text="${user?.nickname}"></h3>
+                                        <div class="extra">
+                                            <span class="point" th:title="${user?.bombRecords?.get(0).bombNum}" th:text="${user?.bombRecords?.get(0).bombNum}"></span>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+
+
+                <!--最新评论-->
+                <aside id="widget_comments-8">
+                    <div class="widget widget_comments">
+                        <div class="heading ">
+                            <h2 class="widget-title">
+                                <i class="fa fa-comments-o"></i> 最新评论
+                            </h2>
+                        </div>
+
+                        <ul class="list-group">
+                            <!--/*@thymesVar id="commentLimit" type="java.util.List"*/-->
+                            <li class="list-group-item" th:each="comment : ${commentLimit}">
+                                <!--/*@thymesVar id="comment" type="com.entity.CommentInfo"*/-->
+                                <a class="media tooltip top" th:title="${comment?.worksInfo?.workTitle}" th:href="@{'/worksDisplay?workId='+${comment?.worksInfo?.workId}}">
+                                    <div class="media-left">
+                                        <img class="avatar media-object" th:src="@{../acgPic/head-image/{filename}(filename=${comment?.user?.headImage})}"
+                                             width="50" height="50">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <!--/*@thymesVar id="comment" type="com.entity.CommentInfo"*/-->
+                                            <span class="author" th:text="${comment?.user?.nickname}"></span>
+                                            <time>
+                                                <small th:text="${#dates.format(comment?.commentTime,'yyyy-MM-dd HH:mm')}"></small>
+                                            </time>
+                                        </h4>
+                                        <div class="text" th:text="${comment?.commentDetails}"></div>
+                                    </div>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </aside>
+
+
+
+                <!--排行榜-->
+                <aside id="widget_rank-2">
+                    <div class="widget widget_rank">
+                        <div class="heading ">
+                            <h2 class="widget-title">
+                                <i class="fa fa-bar-chart"></i> 排行榜
+                            </h2>
+                        </div>
+                        <ul class="list-group list-group-img widget-orderby-latest">
+
+                            <!--/*@thymesVar id="worksInfosLimit" type="java.util.List"*/-->
+                            <li class="list-group-item " th:each="work : ${worksInfosLimit}">
+                                <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                                <a class="list-group-item-bg media" th:href="@{'/worksDisplay?workId='+${work?.workId}}"
+                                                            th:title="${work?.workTitle}"
+                                                            target="_blank">
+                                    <div class="media-left">
+                                        <div class="thumbnail-container">
+                                            <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${work?.workBackground})}"
+                                                 th:alt="${work?.workTitle}" width="320" height="200">
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h3 class="media-heading" th:text="${work?.workTitle}"></h3>
+                                        <div class="metas row">
+                                            <div class="view meta g-phone-1-2">
+                                                <i class="fa fa-play-circle" th:text="${work?.lookCount}"></i>
+                                            </div>
+                                            <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                                            <div class="comments meta g-phone-1-2">
+                                                <i class="fa paw" th:text="${work?.bombCount}"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </aside>
+
+
+
+
+            </div><!-- /.widget-area -->
+        </div><!-- /#sidebar-container -->
+    </div>
+
+</div>
+
+
+<a href="javascript:;" id="back-to-top" class="fa fa-arrow-up fa-2x" title="返回顶部"></a>
+<div th:replace="common/foot :: html"></div>
+
+
+
+<script>
+    $(function () {
+        var bgImage1='../acgPic/work-background/'+$("#bg_input1").val();
+        $("#img_bg1").css('background-image',"url("+bgImage1+")");
+
+        var bgImage2='../acgPic/work-background/'+$("#bg_input2").val();
+        $("#img_bg2").css('background-image',"url("+bgImage2+")");
+
+        var bgImage3='../acgPic/work-background/'+$("#bg_input3").val();
+        $("#img_bg3").css('background-image',"url("+bgImage3+")");
+
+        var bgImage4='../acgPic/work-background/'+$("#bg_input4").val();
+        $("#img_bg4").css('background-image',"url("+bgImage4+")");
+
+        var bgImage5='../acgPic/work-background/'+$("#bg_input5").val();
+        $("#img_bg5").css('background-image',"url("+bgImage5+")");
+
+        var bgImage6='../acgPic/work-background/'+$("#bg_input6").val();
+        $("#img_bg6").css('background-image',"url("+bgImage6+")");
+
+        var bgImage7='../acgPic/work-background/'+$("#bg_input7").val();
+        $("#img_bg7").css('background-image',"url("+bgImage7+")");
+    })
+
+
+    $(function () {
+        $("#bigImg_div a:first-child").addClass('active');
+        $("#div_img_big div:first-child").addClass('active');
+    })
+
+</script>
+
+<script>
+    window.THEME_CONFIG = {"vars":{"locale":"zh_CN","theme_js":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/js\/","theme_css":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/css\/","theme_images":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/images\/","process_url":"http:\/\/www.acgjc.com\/wp-admin\/admin-ajax.php","timestamp":"1564588134"},"lang":{"M01":"\u52a0\u8f7d\u4e2d\uff0c\u8bf7\u7a0d\u5019\u2026","E01":"\u62b1\u6b49\uff0c\u670d\u52a1\u5668\u6b63\u5fd9\uff0c\u65e0\u6cd5\u54cd\u5e94\u4f60\u7684\u8bf7\u6c42\uff0c\u8bf7\u7a0d\u5019\u91cd\u8bd5\u3002"},"theme_custom_slidebox":{"type":"candy"}};
+</script>
+<script type="text/javascript">
+    window._wpemojiSettings = {"baseUrl":"http:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twemoji\/1.4.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.acgjc.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}};
+    !function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+</script>
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type="text/javascript" th:src="@{static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+</body>
+
+
+
+
+
+
+</html>
+<!-- Dynamic page generated in 0.256 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2019-08-16 13:31:20 -->
+
+<!-- Compression = gzip -->

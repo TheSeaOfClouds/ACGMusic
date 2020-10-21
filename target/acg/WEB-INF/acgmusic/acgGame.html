@@ -1,0 +1,265 @@
+﻿<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+
+    <title>ACG游戏 &#8211; 动漫无损音乐下载资讯站_ACG漫音社_专注分享二次元高品质音乐~</title>
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <script th:src="@{/static/js/bootstrap.min.js}"></script>
+
+    <style type="text/css">
+        .recentcomments a{
+            display:inline !important;
+            padding:0 !important;
+            margin:0 !important;
+        }
+    </style>
+
+    <style id="custom-background-css">
+		body.custom-background{
+            background-color: #eeeeee;
+        }
+    </style>
+</head>
+
+<body class="archive category category-yx category-1">
+
+    <div th:replace="common/top :: html"></div>
+
+	<div class="g">
+
+        <div class="crumb-container">
+            <nav class="crumb">
+                <a th:href="@{/}" class="home" title="返回到首页">
+                    <i class="fa fa-home fa-fw"></i>
+                    <span class="tx">返回到首页</span>
+                </a>
+
+                <span class="split">
+                    <i class="fa fa-angle-right"></i>
+                </span>
+                <a th:href="@{/acgGame}">ACG游戏</a>
+                <span class="split">
+                    <i class="fa fa-angle-right"></i>
+                </span>
+                目录浏览
+            </nav>
+	    </div>
+
+        <div id="main">
+
+            <div id="main_div" class="row">
+
+            </div>
+
+
+
+
+            <!--显示分页信息-->
+            <div class="row">
+                <!--分页文字信息-->
+                <div class="col-md-4" id="page_info_area">
+
+                </div>
+                <!--分页导航条信息-->
+                <div class="offset-md-1 pagination" id="page_nav_area">
+
+                </div>
+            </div>
+
+        </div>
+
+        </div><!-- /#main -->
+    </div><!-- /.g -->
+
+    <a href="" id="back-to-top" class="fa fa-arrow-up fa-2x" title="返回顶部"></a>
+
+    <div th:replace="common/foot :: html"></div>
+
+    <script>
+		window.THEME_CONFIG = {"vars":{"locale":"zh_CN","theme_js":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/js\/","theme_css":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/css\/","theme_images":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/images\/","process_url":"http:\/\/www.acgjc.com\/wp-admin\/admin-ajax.php","timestamp":"1564588134"},"lang":{"M01":"\u52a0\u8f7d\u4e2d\uff0c\u8bf7\u7a0d\u5019\u2026","E01":"\u62b1\u6b49\uff0c\u670d\u52a1\u5668\u6b63\u5fd9\uff0c\u65e0\u6cd5\u54cd\u5e94\u4f60\u7684\u8bf7\u6c42\uff0c\u8bf7\u7a0d\u5019\u91cd\u8bd5\u3002"}};
+    </script>
+
+    <script type="text/javascript">
+        window._wpemojiSettings = {"baseUrl":"http:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twemoji\/1.4.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.acgjc.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}};
+        !function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+    </script>
+
+    <script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+    <script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+    <script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+
+
+
+    <script>
+
+        //日期格式化
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+
+        //分页
+
+        $(function(){
+            to_page(1);
+        });
+        function to_page(pn){
+            $.ajax({
+                url:"doAcgGame",
+                data:"pn="+pn,
+                type:"POST",
+                success:function(result){
+                    //1、解析并显示work数据
+                    build_users_table(result);
+                    //2、解析并显示分页信息
+                    build_page_info(result);
+                    //3、解析显示分页条数据
+                    build_page_nav(result);
+                }
+            });
+        }
+
+        function build_users_table(result){
+            //清空table表格
+            $("#main_div").empty();
+            var works = result.extend.pageInfo.list;
+
+            var html="";
+            $.each(works,function(index,item){
+
+                var work_time=new Date(item.workTime);
+                var imgsrc1="../acgPic/work-background/"+item.workBackground;
+                var imgsrc2="../acgPic/head-image/"+item.user.headImage;
+                var ahref1="authorIndex?uid="+item.user.uid;
+                var ahref2="worksEdit?workId="+item.workId;
+                var ahref3="worksDisplay?workId="+item.workId;
+                var ahref4="#";
+
+
+                html+="<article class=\"g-desktop-1-4 g-tablet-1-2 card sm  post-108147 post type-post status-publish format-standard has-post-thumbnail hentry category-dmlm tag-hi-res\">\n" +
+                    "\t\t\t    <div class=\"card-bg\">\n" +
+                    "\t\t\t\t\t<div class=\"card-cat\">\n" +
+                    "\t\t\t\t\t\t<span style=\"background-color:rgba(238,145,111,.8);\">ACG游戏</span>\n" +
+                    "\t\t\t\t\t</div>\n" +
+                    "\t\t\t\t\t<a " +
+                    " href=" +ahref3+
+                    "  style=\"text-decoration: none;\" class=\"thumbnail-container\" target=\"_blank\">\n" +
+                    "\t\t\t\t\t\t<img class=\"thumbnail\" " +
+                    " src="+imgsrc1+
+                    " width=\"320\" height=\"200\">\n" +
+                    "\t\t\t\t\t</a>\n" +
+                    "\t\t\t\t\n" +
+                    "\t\t\t\t    <a href="+ahref3 +
+                    " class=\"card-title\" style=\"text-decoration: none;\" target=\"_blank\">\n" +
+                    "\t\t\t\t\t    <h3>" +item.workTitle+
+                    "</h3>\n" +
+                    "\t\t\t\t    </a>\n" +
+                    "\t\t\t\t    <div class=\"card-meta\">\n" +
+                    "\t\t\t\t\t    <a style=\"text-decoration: none;\" " +
+                    " href="+ahref1+
+                    " class=\"meta author\" target=\"_blank\">\n" +
+                    "\t\t\t\t\t\t    <img width=\"32\" height=\"32\" " +
+                    " src=" +imgsrc2+
+                    " class=\"avatar\"> " +
+                    "<span class=\"tx\">" +item.user.nickname+
+                    "</span>\n" +
+                    "\t\t\t\t\t    </a>\n" +
+                    "\t\t\t\t\t    <time class=\"meta time\">" +work_time.Format("yyyy-MM-dd HH:mm:ss")+
+                    "</time>\n" +
+                    "\t\t\t\t    </div>\n" +
+                    "\t\t\t    </div>\n" +
+                    "\t\t    </article>"
+
+                $("#main_div").html(html);
+
+            });
+        }
+
+        //解析显示分页信息
+        function build_page_info(result) {
+            $("#page_info_area").empty();
+            $("#page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+result.extend.pageInfo.pages+"页,总"+result.extend.pageInfo.total+"条记录");
+            totalRecord=result.extend.pageInfo.total;//最后一条数据
+            currentPage=result.extend.pageInfo.pageNum;//当前页
+        }
+        //解析显示分页条，点击分页要能去下一页....
+        function build_page_nav(result) {
+            $("#page_nav_area").empty();
+            var ul=$("<ul class='pagination'></ul>");
+
+            //构建元素
+            var firstPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("首页").attr('href','#'));
+            var prePageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("&laquo;"));//上一页
+            if (result.extend.pageInfo.hasPreviousPage==false){
+                firstPageLi.addClass("disabled");
+                prePageLi.addClass("disabled");
+            } else {
+                //为元素添加点击翻页的事件
+                firstPageLi.click(function () {
+                    to_page(1);
+                });
+                prePageLi.click(function () {
+                    to_page(result.extend.pageInfo.pageNum-1);
+                });
+            }
+
+            var lastPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("末页").attr("href","#"));
+            var nextPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("&raquo;"));//下一页
+            if (result.extend.pageInfo.hasNextPage==false){
+                lastPageLi.addClass("disabled");
+                nextPageLi.addClass("disabled");
+            } else {
+                //为元素添加点击翻页的事件
+                lastPageLi.click(function () {
+                    to_page(result.extend.pageInfo.pages);
+                });
+                nextPageLi.click(function () {
+                    to_page(result.extend.pageInfo.pageNum+1);
+                });
+            }
+
+            //添加首页和前一页 的提示
+            ul.append(firstPageLi).append(prePageLi);
+            //1,2，3遍历给ul中添加页码提示
+            $.each(result.extend.pageInfo.navigatepageNums,function (index,item) {
+
+                var numLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append(item));
+                if (result.extend.pageInfo.pageNum==item) {
+                    numLi.addClass("active");
+                }
+                numLi.click(function () {
+                    to_page(item);
+                });
+                ul.append(numLi);
+            });
+
+            //添加下一页和末页
+            ul.append(nextPageLi).append(lastPageLi);
+            //把ul加入到nav中
+            var navEle=$("<nav></nav>").append(ul);
+            navEle.appendTo("#page_nav_area");
+        }
+    </script>
+</body></html>
+<!-- Dynamic page generated in 0.066 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2019-08-20 00:56:55 -->
+
+<!-- Compression = gzip -->

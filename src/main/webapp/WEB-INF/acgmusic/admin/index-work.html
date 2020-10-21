@@ -1,0 +1,327 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index-work</title>
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <script th:src="@{/static/js/bootstrap.min.js}"></script>
+
+    <style type="text/css">
+        .recentcomments a {
+            display: inline !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        @media (min-width: 960px){
+            .nav > *, .nav-vertical > * {
+                width: auto;
+            }
+        }
+
+        .nav-item a{
+            text-align: center;
+            font-size: x-large;
+        }
+        .nav, .nav-vertical {
+            overflow-x: auto;
+        }
+
+    </style>
+    <style id="custom-background-css">
+        body.custom-background {
+            background-color: #eeeeee;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="container">
+    <ul class="nav nav-pills" style="height: 50px;">
+        <li class="nav-item" style="height: 50px;">
+            <a id="href_user" class="nav-link" style="height: 48px;text-decoration: none;" th:href="@{/indexUser.do}">
+                用户管理
+            </a>
+        </li>
+
+        <li class="nav-item" style="height: 50px;">
+            <a id="href_work" class="nav-link active" style="height: 48px;text-decoration: none;" th:href="@{/indexWork.do}">
+                作品管理
+            </a>
+        </li>
+
+        <li class="nav-item" style="height: 50px;">
+            <a id="href_comment" class="nav-link" style="height: 48px;text-decoration: none;" th:href="@{indexComment.do}">
+                评论管理
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!--<div id="main_div" class="list-group">
+
+        </div>-->
+        <table class="table table-striped">
+
+            <thead>
+
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+        <!--显示分页信息-->
+        <div class="row">
+            <!--分页文字信息-->
+            <div class="col-md-4" id="page_info_area">
+
+            </div>
+            <!--分页导航条信息-->
+            <div class="offset-md-1 pagination" id="page_nav_area">
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+
+
+
+
+
+
+
+
+<script>
+
+    //日期格式化
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+
+    $(function(){
+        to_page(1);
+    });
+
+    function to_page (pn) {
+
+        $.ajax({
+
+            url:"manageWork.do",
+            data:"pn="+pn,
+            type:"POST",
+            success:function(result){
+                //1、解析并显示user数据
+                build_div_work(result);
+                //2、解析并显示分页信息
+                build_page_info(result);
+                //3、解析显示分页条数据
+                build_page_nav(result);
+
+            }
+        })
+    };
+
+
+
+    //work管理
+    function build_div_work(result) {
+
+        var myList=result.extend.pageInfo.list;
+        var html="";
+        var htmlHead="";
+        htmlHead+="<tr>\n" +
+            "        <th>背景图</th>\n" +
+            "        <th>workId</th>\n" +
+            "        <th>uid</th>\n" +
+            "        <th>标题</th>\n" +
+            "        <th>描述</th>\n" +
+            "        <th>内容</th>\n" +
+            "        <th>网盘地址</th>\n" +
+            "        <th>类型</th>\n" +
+            "        <th>发布时间</th>\n" +
+            "        <th>编辑</th>\n" +
+            "      </tr>";
+
+        $("thead").html(htmlHead);
+
+        $.each(myList,function (index, item) {
+
+            html+="<tr>\n" +
+                "        <td><img width='50' height='30' " +
+                " src=" +"../acgPic/work-background/"+item.workBackground+
+                "></td>\n" +
+                "        <td width='30px;'>" +item.workId+
+                "</td>\n" +
+                "        <td width='30px;'>" +item.uid+
+                "</td>\n" +
+                "        <td width='50px;'>" +item.workTitle+
+                "</td>\n" +
+                "        <td width='60px;'>" +item.workDigest+
+                "</td>\n" +
+                "        <td width='100px;'>" +item.workContent+
+                "</td>\n" +
+                "        <td width='50px;'>" +item.diskUrl+
+                "</td>\n" +
+                "        <td width='40px;'>" +item.typeName+
+                "</td>\n" +
+                "        <td width='40px;'>" +new Date(item.workTime).Format("yyyy-MM-dd HH:mm:ss")+
+                "</td>\n" +
+                "        <td width='40px;'><a class='btn btn-danger' style='text-decoration: none;' href='#' onclick='delete_work(" +item.workId+
+                ")'>删除</a>" +
+                "<a class='btn btn-primary' style='text-decoration: none;' href='#' onclick='delete_user(" +item.uid+
+                ")'>编辑</a>" +
+                "</td>\n" +
+                "      </tr>";
+
+
+            $("tbody").html(html);
+
+
+        });
+    }
+
+    function delete_work(workId){
+
+        $.ajax({
+
+            url:"deleteWork.do",
+            type:"POST",
+            data:"workId="+workId,
+            success:function (result) {
+                console.log("删除成功");
+                to_page(currentPage);
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //解析显示分页信息
+    function build_page_info(result) {
+        $("#page_info_area").empty();
+        $("#page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+result.extend.pageInfo.pages+"页,总"+result.extend.pageInfo.total+"条记录");
+        totalRecord=result.extend.pageInfo.total;//最后一条数据
+        currentPage=result.extend.pageInfo.pageNum;//当前页
+    }
+    //解析显示分页条，点击分页要能去下一页....
+    function build_page_nav(result) {
+        $("#page_nav_area").empty();
+        var ul=$("<ul class='pagination'></ul>");
+
+        //构建元素
+        var firstPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("首页").attr('href','#'));
+        var prePageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("&laquo;"));//上一页
+        if (result.extend.pageInfo.hasPreviousPage==false){
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        } else {
+            //为元素添加点击翻页的事件
+            firstPageLi.click(function () {
+                to_page(1);
+            });
+            prePageLi.click(function () {
+                to_page(result.extend.pageInfo.pageNum-1);
+            });
+        }
+
+        var lastPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("末页").attr("href","#"));
+        var nextPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("&raquo;"));//下一页
+        if (result.extend.pageInfo.hasNextPage==false){
+            lastPageLi.addClass("disabled");
+            nextPageLi.addClass("disabled");
+        } else {
+            //为元素添加点击翻页的事件
+            lastPageLi.click(function () {
+                to_page(result.extend.pageInfo.pages);
+            });
+            nextPageLi.click(function () {
+                to_page(result.extend.pageInfo.pageNum+1);
+            });
+        }
+
+        //添加首页和前一页 的提示
+        ul.append(firstPageLi).append(prePageLi);
+        //1,2，3遍历给ul中添加页码提示
+        $.each(result.extend.pageInfo.navigatepageNums,function (index,item) {
+
+            var numLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append(item));
+            if (result.extend.pageInfo.pageNum==item) {
+                numLi.addClass("active");
+            }
+            numLi.click(function () {
+                to_page(item);
+            });
+            ul.append(numLi);
+        });
+
+        //添加下一页和末页
+        ul.append(nextPageLi).append(lastPageLi);
+        //把ul加入到nav中
+        var navEle=$("<nav></nav>").append(ul);
+        navEle.appendTo("#page_nav_area");
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

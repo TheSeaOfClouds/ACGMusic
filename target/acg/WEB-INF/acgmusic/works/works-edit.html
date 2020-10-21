@@ -1,0 +1,276 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <title>会员帐号 – 动漫无损音乐下载资讯站_ACG漫音社_专注分享二次元高品质音乐~</title>
+
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <script th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script th:src="@{/static/js/fileinput.js}"></script>
+    <link th:href="@{/static/css/fileinput.css}" rel="stylesheet">
+    <script th:src="@{/static/js/zh.js}"></script>
+    <style type="text/css">
+
+        select.form-control {
+            height: auto;
+        }
+
+        input.form-control {
+            height: auto;
+        }
+
+        .file-caption.form-control.kv-fileinput-caption {
+            height: auto;
+        }
+
+        body {
+            text-align: center;
+        }
+        a{
+            color: black;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+<div th:replace="common/top :: html"></div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-2" style="padding-top: 28px;">
+            <!--<div th:replace="common/works-left :: html"></div>-->
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a th:href="@{/analyze}" style="text-decoration: none;">
+                        <i class="fa fa-dashboard fa-fw"></i>&nbsp;浏览数据
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/worksEdit}" style="background-color: #FF6FA2;text-decoration: none;">
+                        <i class="fa fa-paint-brush fa-fw"></i>&nbsp;文章投稿
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/myWorks}" style="text-decoration: none;">
+                        <i class="fa fa-lightbulb-o fa-fw"></i>&nbsp;我的作品
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/userLetter}" style="text-decoration: none;">
+                        <i class="fa fa-envelope fa-fw"></i>&nbsp;我的私信
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/myRemind}" style="text-decoration: none;">
+                        <i class="fa fa-bell fa-fw"></i>&nbsp;我的提醒
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/bombHistory}" style="text-decoration: none;">
+                        <i class="fa fa-history fa-fw"></i>&nbsp;积分历史
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a style="text-decoration: none;" th:href="@{/mySettings}">
+                        <i class="fa fa-cog fa-fw"></i>&nbsp;我的设置
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/updateHeadImage}" style="text-decoration: none;">
+                        <i class="fa fa-github-alt fa-fw"></i>&nbsp;我的头像
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a style="text-decoration: none;" th:href="@{/updatePassword}">
+                        <i class="fa fa-lock fa-fw"></i>&nbsp;修改密码
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col-md-9">
+            <form th:action="@{/addWorks}" id="works_form" method="post" enctype="multipart/form-data">
+
+                <p>请注意每次提交投稿前注意检查一下你们的百度网盘分享链接</p>
+
+                <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                <input id="work_hidden" type="text" hidden="hidden" th:value="${work?.workId}">
+
+                <input hidden="hidden" name="uid" th:value="${session.currentUser?.getUid()}">
+                <!--文章标题-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">文章标题</span>
+                    </div>
+                    <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                    <input name="workTitle" type="text" th:value="${work?.workTitle}" class="form-control" placeholder="文章标题(必填)">
+                </div>
+
+                <!--文章摘要-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">文章摘要</span>
+                    </div>
+                    <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                    <textarea name="workDigest" th:text="${work?.workDigest}" style="height: 80px;" type="text" class="form-control" placeholder="在这里填写文章摘要"></textarea>
+                </div>
+
+                <!--文章内容-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">文章内容</span>
+                    </div>
+                    <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                    <textarea name="workContent" th:text="${work?.workContent}" style="height: 150px;" type="text" class="form-control" placeholder="在这里填写文章内容"></textarea>
+                </div>
+
+                <!--上传图片-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">上传图片</span>
+                    </div>
+                    <input name="workBackground" hidden="hidden" th:value="${work?.workBackground}">
+                    <input name="file" type="file" id="fileInput" class="file">
+                </div>
+
+                <!--网盘链接-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">网盘链接</span>
+                    </div>
+                    <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                    <input name="diskUrl" th:value="${work?.diskUrl}" type="text" class="form-control" placeholder="网盘URL">
+                    <input name="diskPwd" th:value="${work?.diskPwd}" type="text" class="form-control" placeholder="提取码(可选)">
+                    <input name="diskZipPwd" th:value="${work?.diskZipPwd}" type="text" class="form-control" placeholder="解压密码(可选)">
+                </div>
+
+                <!--音乐类型-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">音乐类型</span>
+                    </div>
+                    <select name="typeName" type="text" class="form-control">
+                        <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                        <option th:selected="${work?.typeName=='ACG动漫'}" value="ACG动漫">ACG动漫</option>
+                        <option th:selected="${work?.typeName=='ACG游戏'}" value="ACG游戏">ACG游戏</option>
+                        <option th:selected="${work?.typeName=='ACG音乐'}" value="ACG音乐">ACG音乐</option>
+                        <option th:selected="${work?.typeName=='ACG图片'}" value="ACG图片">ACG图片</option>
+                    </select>
+                </div>
+
+                <!--&lt;!&ndash;自定义标签&ndash;&gt;
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">自定义标签</span>
+                    </div>
+
+                    <input type="text" class="form-control" placeholder="自定义标签1">
+                    <input type="text" class="form-control" placeholder="自定义标签2">
+                    <input type="text" class="form-control" placeholder="自定义标签3">
+                    <input type="text" class="form-control" placeholder="自定义标签4">
+                </div>-->
+
+                <!--来源-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">来源</span>
+                    </div>
+
+                    <select name="workFrom" type="text" class="form-control">
+                        <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                        <option th:selected="${work?.workFrom=='原创'}" value="原创">原创</option>
+                        <option th:selected="${work?.workFrom=='转载'}" value="转载">转载</option>
+                    </select>
+                </div>
+
+                <!--提交-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend col-md-9">
+                        <button id="works_save_btn" type="submit" class="btn btn-secondary col-md-9 offset-md-3">提交</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<a href="http://www.acgjc.com/account/?tab=post#" id="back-to-top" class="fa fa-arrow-up fa-2x" title="返回顶部"></a>
+
+<div th:replace="common/foot :: html"></div>
+
+</body>
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+<script>
+    $('#fileInput').fileinput({
+        /*language: 'zh',
+        uploadUrl: '${ctx}/activity/imgUpload',
+        allowedFileExtensions:  ['jpg', 'png', 'jpeg', 'gif', 'bmp'],
+        allowedPreviewTypes : ['image', 'html', 'text', 'video', 'audio', 'flash'],*/
+        dropZoneTitle: " ** ** *** ***** 请将图片拖拽至此处或点击浏览按钮添加图片 **** *** ** ** ",
+        /*// 这个配置就是解决办法了,初始化时限制图片大小
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        }*/
+    })
+    
+   /* $(function () {
+        if ($("#work_hidden")!=null){//修改work
+            $("#works_form").attr('action','updateWork');
+        }else {//增加work
+            $("#works_form").attr('action','addWorks');
+        }
+    })*/
+
+   $(function () {
+       if ($("#work_hidden").val() > 0) {
+           $("#work_hidden").attr('name','workId');
+       }
+   });
+
+
+
+    //ajax
+    /*$("#works_save_btn").click(function(){
+        var formdata=new FormData($("#works_form")[0]);
+        //2、发送ajax请求保存员工
+        $.ajax({
+            url:"/acgmusic/addWorks",
+            type:"POST",
+            data:formdata,
+            success:function(result){
+                //alert(result.msg);
+                if(result.code == 100){
+                    //员工保存成功；
+                    //1、关闭模态框
+                    //$("#userAddModal").modal('hide');
+                    //2、显示刚才保存的数据
+                    alert("发布成功");
+                }else{
+                    //显示失败信息
+                    console.log(result);
+                }
+            }
+        });
+    });*/
+</script>
+</html>

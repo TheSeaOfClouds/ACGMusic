@@ -1,0 +1,285 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的提醒</title>
+
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <script th:src="@{/static/js/bootstrap.min.js}"></script>
+
+
+    <style type="text/css">
+
+        #left_ul a{
+            color: black;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<div th:replace="common/top :: html"></div>
+
+<div class="container">
+    <!--<div th:replace="common/works-left :: html"></div>-->
+    <div class="row">
+
+        <div id="left_ul" class="col-md-2" style="padding-top: 28px;">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a th:href="@{/analyze}" style="text-decoration: none;">
+                        <i class="fa fa-dashboard fa-fw"></i>&nbsp;浏览数据
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/worksEdit}" style="text-decoration: none;">
+                        <i class="fa fa-paint-brush fa-fw"></i>&nbsp;文章投稿
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/myWorks}" style="text-decoration: none;">
+                        <i class="fa fa-lightbulb-o fa-fw"></i>&nbsp;我的作品
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/userLetter}" style="text-decoration: none;">
+                        <i class="fa fa-envelope fa-fw"></i>&nbsp;我的私信
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/myRemind}" style="text-decoration: none;background-color: #FF6FA2;">
+                        <i class="fa fa-bell fa-fw"></i>&nbsp;我的提醒
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/bombHistory}" style="text-decoration: none;">
+                        <i class="fa fa-history fa-fw"></i>&nbsp;积分历史
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a style="text-decoration: none;" th:href="@{/mySettings}">
+                        <i class="fa fa-cog fa-fw"></i>&nbsp;我的设置
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/updateHeadImage}" style="text-decoration: none;">
+                        <i class="fa fa-github-alt fa-fw"></i>&nbsp;我的头像
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a style="text-decoration: none;" th:href="@{/updatePassword}">
+                        <i class="fa fa-lock fa-fw"></i>&nbsp;修改密码
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col-md-9">
+
+            <div id="account-content">
+                <div class="panel">
+
+
+                    <!--显示分页-->
+                    <div id="main">
+
+                        <ul id="main_div" class="list-group history-group">
+
+                        </ul>
+
+
+                        <!--显示分页信息-->
+                        <div class="row">
+                            <!--分页文字信息-->
+                            <div class="col-md-4" id="page_info_area">
+
+                            </div>
+                            <!--分页导航条信息-->
+                            <div class="offset-md-1 pagination" id="page_nav_area">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+
+
+
+<script>
+
+    //日期格式化
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+
+    //分页
+
+    $(function(){
+        to_page(1);
+    });
+    function to_page(pn){
+        $.ajax({
+            url:"doMyRemind",
+            data:"pn="+pn,
+            type:"POST",
+            success:function(result){
+                //1、解析并显示work数据
+                build_users_table(result);
+                //2、解析并显示分页信息
+                build_page_info(result);
+                //3、解析显示分页条数据
+                build_page_nav(result);
+            }
+        });
+    }
+
+    function build_users_table(result){
+        //清空table表格
+        $("#main_div").empty();
+        var works = result.extend.pageInfo.list;
+
+        var html="";
+        $.each(works,function(index,item){
+
+            var work_time=new Date(item.workTime);
+            var imgsrc1="../acgPic/work-background/"+item.workBackground;
+            var imgsrc2="../acgPic/head-image/"+item.user.headImage;
+            var ahref1="authorIndex?uid="+item.user.uid;
+            var ahref2="authorIndex?uid="+item.anotherUid;
+            var ahref3="worksDisplay?workId="+item.worksInfo.workId;
+            var ahref4="#";
+
+
+            html+="<li class=\"list-group-item type-post-reply \">\n" +
+                "                            <div class=\"media\">\n" +
+                "                                <div class=\"media-left\">\n" +
+                "                                    <a style='text-decoration: none;' " +
+                " href="+ahref1+
+                ">\n" +
+                "                                        <img " +
+                " src="+imgsrc2+
+                " class=\"avatar media-object\" alt=\"avatar\" width=\"60\" height=\"60\">\n" +
+                "                                    </a>\n" +
+                "                                </div>\n" +
+                "                                <div class=\"media-body\">\n" +
+                "                                    <h4 class=\"media-heading\">\n" +
+                "                                        <span class=\"label label-default\"><i class=\"fa fa-comments\"></i> 文章评论</span>\n" +
+                "                                        您的文章 <a style='text-decoration: none;' " +
+                " href="+ahref3+
+                ">" +item.worksInfo.workTitle+
+                "</a> 有一条来自 <a " +
+                " href=" +ahref2+
+                " style='text-decoration: none;' rel='external nofollow' class='url'>" +item.anotherUser.nickname+
+                "</a> 的评论。\t\t\t\t</h4>\n" +
+                "                                    <div class=\"excerpt\"><p>" +item.commentDetails+
+                "</p>\n" +
+                "                                    </div>\n" +
+                "                                </div><!-- /.media-body -->\n" +
+                "                            </div><!-- /.media -->\n" +
+                "                        </li>"
+
+            $("#main_div").html(html);
+
+        });
+    }
+
+    //解析显示分页信息
+    function build_page_info(result) {
+        $("#page_info_area").empty();
+        $("#page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+result.extend.pageInfo.pages+"页,总"+result.extend.pageInfo.total+"条记录");
+        totalRecord=result.extend.pageInfo.total;//最后一条数据
+        currentPage=result.extend.pageInfo.pageNum;//当前页
+    }
+    //解析显示分页条，点击分页要能去下一页....
+    function build_page_nav(result) {
+        $("#page_nav_area").empty();
+        var ul=$("<ul class='pagination'></ul>");
+
+        //构建元素
+        var firstPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("首页").attr('href','#'));
+        var prePageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("&laquo;"));//上一页
+        if (result.extend.pageInfo.hasPreviousPage==false){
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        } else {
+            //为元素添加点击翻页的事件
+            firstPageLi.click(function () {
+                to_page(1);
+            });
+            prePageLi.click(function () {
+                to_page(result.extend.pageInfo.pageNum-1);
+            });
+        }
+
+        var lastPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("末页").attr("href","#"));
+        var nextPageLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append("&raquo;"));//下一页
+        if (result.extend.pageInfo.hasNextPage==false){
+            lastPageLi.addClass("disabled");
+            nextPageLi.addClass("disabled");
+        } else {
+            //为元素添加点击翻页的事件
+            lastPageLi.click(function () {
+                to_page(result.extend.pageInfo.pages);
+            });
+            nextPageLi.click(function () {
+                to_page(result.extend.pageInfo.pageNum+1);
+            });
+        }
+
+        //添加首页和前一页 的提示
+        ul.append(firstPageLi).append(prePageLi);
+        //1,2，3遍历给ul中添加页码提示
+        $.each(result.extend.pageInfo.navigatepageNums,function (index,item) {
+
+            var numLi=$("<li class='page-item'></li>").append($("<a class='page-link'></a>").append(item));
+            if (result.extend.pageInfo.pageNum==item) {
+                numLi.addClass("active");
+            }
+            numLi.click(function () {
+                to_page(item);
+            });
+            ul.append(numLi);
+        });
+
+        //添加下一页和末页
+        ul.append(nextPageLi).append(lastPageLi);
+        //把ul加入到nav中
+        var navEle=$("<nav></nav>").append(ul);
+        navEle.appendTo("#page_nav_area");
+    }
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,618 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>work-display</title>
+
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <script th:src="@{/static/js/bootstrap.min.js}"></script>
+
+
+    <style type="text/css">
+
+        a{
+            color: black;
+        }
+        i{
+            padding-left: 5px;
+        }
+        .tooltip{
+            opacity: inherit;
+        }
+        #widget-author-card .avatar {
+            max-width: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="bomb_msg" hidden class="alert alert-success" style="z-index: 30;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>打赏成功!</strong>
+</div>
+
+<div th:replace="common/top :: html"></div>
+
+
+<div class="g">
+    <div class="row">
+        <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+        <input id="bg_input" type="text" hidden="hidden" th:value="${work?.workBackground}">
+        <input name="workId" id="count_workId" type="text" hidden th:value="${work?.workId}">
+        <div id="main" class="col-md-9 main g-desktop-3-4">
+            <article id="main_article" class="card format-standard">
+                <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                <h2 class="card-header" th:text="${work?.workTitle}" style="text-align: center"></h2>
+                <header class="entry-header" style="padding-top: 10px;text-align: center;">
+                    <!-- category -->
+                    <span class="entry-meta post-category" title="分类">
+						<i class="fa fa-folder-open"></i>
+						<a href="17.html" rel="category" th:text="${work?.typeName}"></a>
+                    </span>
+
+                    <!-- time -->
+                    <time class="entry-meta post-time">
+                        <i class="fa fa-clock-o" th:text="${#dates.format(work?.workTime,'yyyy/MM/dd HH:mm')}"></i>
+                    </time>
+                    <!-- author link -->
+                    <a class="entry-meta post-author" href="author/117392/Index.html">
+                        <!--/*@thymesVar id="user" type="com.entity.User"*/-->
+                        <i class="fa fa-user" th:text="${user?.nickname}"></i>
+                    </a>
+
+                    <!-- views -->
+                    <span class="entry-meta post-views" title="查看数">
+						<i class="fa fa-play-circle"></i>
+						<span class="number" id="post-views-number-108215" th:text="${work?.lookCount}"></span>
+					</span>
+                    <!--评论数-->
+                    <a href="" class="entry-meta quick-comment comment-count" data-post-id="108215">
+                        <i class="fa fa-comment"></i>
+                        <!--/*@thymesVar id="commentCount" type="java.lang.Integer"*/-->
+                        <span class="comment-count-number" th:text="${commentCount}"></span>
+                    </a>
+                </header>
+
+
+
+                <div class="entry-body">
+                    <div class="ad-container ad-below-post-title">
+                        <a href="#" target="_blank">
+                            <!--<img th:src="@{../acgPic/work-background/{filename}(filename=${work?.workBackground})}">-->
+                        </a>
+                    </div>
+                    <!-- entry-excerpt -->
+                    <!-- post-content -->
+                    <div class="entry-content content-reset">
+                        <p th:text="${work?.workDigest}" style="text-align: center;font-size: large;font-weight: bold;">
+
+                        </p>
+
+                        <p th:text="${work?.workContent}" style="padding-top: 80px;padding-left: 40px;padding-right: 40px;">
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- entry-circle -->
+                    <div class="entry-circle" style="padding-top: 120px;padding-bottom: 60px;">
+                        <div id="bomb_div" class="meta meta-post-point">
+                            <a style="text-decoration: none;" href="javascript:;" class="post-point-btn" title="打赏 3 个喵爪" data-post-id="108215" data-points="3">
+                                <div id="post-point-number" class="number"></div>
+                                <div class="tx">打赏</div>
+                            </a>
+                            <div class="box">
+                                <input name="workId" id="bomb_href_input" type="text" th:value="${work?.workId}" hidden="hidden">
+                                <a id="href1" href="#" class="post-point-btn " title="打赏 3 个喵爪" style="text-decoration: none;" data-post-id="108215" data-points="3">3</a>
+                                <a id="href2" href="#" class="post-point-btn " title="打赏 5 个喵爪" style="text-decoration: none;" data-post-id="108215" data-points="5">5</a>
+                                <a id="href3" href="#" class="post-point-btn " title="打赏 10 个喵爪" style="text-decoration: none;" data-post-id="108215" data-points="10">10</a>
+                            </div>
+                        </div>
+                        <a id="a_download" style="text-decoration: none;" class="meta meta-post-storage" th:href="@{'/download?workId='+${work?.workId}}" target="_blank" title="下载">
+                            <div id="post-storage-number" class="number" th:text="${work?.downloadCount}">
+
+                            </div>
+                            <div class="tx">下载</div>
+                        </a>
+                        <a style="text-decoration: none;" class="meta meta-post-comments" href="#" id="post-comments-btn" title="评论">
+                            <!--/*@thymesVar id="commentCount" type="java.lang.Integer"*/-->
+                            <div id="post-comments-number-" class="number" th:text="${commentCount?:0}">
+                            </div>
+                            <div class="tx">吐槽</div>
+                        </a>
+                    </div>
+
+                    <!-- theme_custom_post_source -->
+                    <ul class="card-footer" style="text-align: center;list-style-type: none;margin-bottom: 0px;">
+                        <li>
+                            本作品是由
+                            <a href="">动漫无损音乐下载资讯站_ACG漫音社_专注分享二次元高品质音乐~</a> 会员
+                            <a href="author/117392/Index.html">残灯花火</a>的投递作品。
+                        </li>
+                        <li>
+                            欢迎转载，但请务必注明来源地址：
+                            <!--/*@thymesVar id="user" type="com.entity.User"*/-->
+                            <a href="" target="_blank" rel="nofollow" th:text="| uid : ${user?.uid}|"></a>。
+                        </li>
+                    </ul>
+                </div><!-- /.entry-body -->
+
+            </article>
+
+
+
+            <!--评论-->
+
+            <!--未登录状态-->
+            <div id="no_login" class="card col-md-12" style="height: 100px;">
+                <input hidden id="no_login_input" type="text" th:value="${session?.currentUser}">
+                <h4 style="padding-top: 35px;text-align: center;">你还未<a th:href="@{/login}" style="text-decoration: none;color: #0fb2fc;">登录</a>, 暂还不能评论</h4>
+            </div>
+
+
+            <!--已登录-->
+            <div id="div_comment" class="col-md-12" style="padding: 0px;">
+
+                <div class="card col-md-12">
+                    <div id="comment_user" class="row">
+                        <div class="col-md-2" style="padding-top: 25px;">
+                            <img width="80" height="80"
+                                 th:src="@{../acgPic/head-image/{filename}(filename=${session.currentUser!=null?session.currentUser.getHeadImage():'default-head.jpg'})}">
+                        </div>
+
+                        <div class="col-md-10" style="padding-top: 20px;">
+                            <form id="comment_form">
+                                <i class="ipt-arrow"></i>
+                                <div class="form-group">
+                                    <input name="uid" type="text" hidden="hidden" th:value="${session.currentUser?.uid}">
+                                    <input name="workId" type="text" hidden="hidden" th:value="${work?.workId}">
+                                    <textarea name="commentDetails" rows="4" class="form-group col-md-12" type="text"></textarea>
+                                    <input name="anotherUid" type="text" hidden="hidden" th:value="${work?.uid}">
+                                    <input id="input_send" class="form-group offset-md-1 col-md-10 btn-success" type="button" value="发送">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="div_show_message" style="padding-bottom: 10px;font-size: large;text-align: center"></div>
+            </div>
+
+
+
+            <!--展示评论-->
+            <div id="comments" class="panel comment-wrapper ">
+                <div class="heading">
+                    <h2 class="have-comments-title title">
+                        <i class="fa fa-comments"></i>
+                        <!--/*@thymesVar id="commentCount" type="java.lang.Integer"*/-->
+                        <span th:text="${commentCount}"></span>
+                        评论
+                    </h2>
+                </div>
+
+                <!--/*@thymesVar id="commentList" type="com.entity.CommentInfo"*/-->
+                <ul id="comment-ul" class="comment-list" th:each="comment : ${commentList}">
+                    <li class="comment byuser even thread-even depth-1 media">
+                        <div id="comment-body" class="comment-body">
+                            <div class="media-left">
+                                <a href="" class="avatar-link" target="_blank">
+                                    <!--/*@thymesVar id="comment" type="com.entity.CommentInfo"*/-->
+                                    <img th:src="@{../acgPic/head-image/{filename}(filename=${comment?.user?.headImage})}" style="border-radius: 100%;" class="avatar" height="50" width="50">
+                                </a>
+                            </div>
+
+                            <div class="media-body">
+                                <div class="comment-content">
+                                    <!--/*@thymesVar id="comment" type="com.entity.CommentInfo"*/-->
+                                    <p th:text="${comment?.commentDetails}"></p>
+                                </div>
+                                <h4 class="media-heading">
+                                    <span class="comment-meta-data author">
+                                        <!--/*@thymesVar id="comment" type="com.entity.CommentInfo"*/-->
+                                        <a href="" rel="external nofollow" class="url" th:text="${comment?.user?.nickname}"></a>
+                                    </span>
+                                    <!--/*@thymesVar id="comment" type="com.entity.CommentInfo"*/-->
+                                    <time class="comment-meta-data time" th:text="${#dates.format(comment?.commentTime,'yyyy-MM-dd HH:mm')}">
+
+                                    </time>
+                                    <span class="comment-meta-data comment-reply reply">
+                                        <a rel="nofollow" class="comment-reply-link"
+                                           href="javascript:;" onclick="">回复
+                                        </a>
+                                    </span>
+                                </h4>
+                            </div>
+
+                        </div>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+
+
+        <!--右边-->
+        <div class="col-md-3 row">
+
+            <div id="widget-author-card" class="col-md-12 card" style="height: 264px;">
+                <a th:href="@{'/authorIndex?uid='+${user?.uid}}" class="author-link" style="text-decoration: none;" title="查看作者资料">
+                    <!--/*@thymesVar id="user" type="com.entity.User"*/-->
+                    <img alt="" th:src="@{../acgPic/head-image/{filename}(filename=${user?.headImage})}"
+                         class="avatar avatar-100 photo" height="100" width="100" style="padding-top: 10px;">
+                    <h3 class="author-card-name" th:text="${user?.nickname}"></h3>
+                    <small class="label label-warning">作者</small>
+                </a>
+
+                <!--/*@thymesVar id="user" type="com.entity.User"*/-->
+                <p class="author-card-description" th:text="${user?.describe}"></p>
+
+
+                <div class="author-card-meta-links">
+                    <a class="tooltip" th:href="@{'/authorWorks?uid='+${user?.uid}}"
+                       title="查看作者的文章" target="_blank" style="text-decoration: none;">
+                        <span class="tx">
+                            <i class="fa fa-fw fa-file-text"></i>
+                        </span>
+                        <!--/*@thymesVar id="worksCount" type="java.lang.Integer"*/-->
+                        <span class="count" th:text="${worksCount}"></span>
+                    </a>
+
+                    <a class="tooltip" th:href="@{'/authorComments?uid='+${user?.uid}}"
+                       title="查看作者的评论" target="_blank" style="text-decoration: none;">
+                        <span class="tx">
+                            <i class="fa fa-fw fa-comments"></i>
+                        </span>
+                        <span class="count">9</span>
+                    </a>
+
+                    <a class="tooltip disabled" href="#" rel="nofollow"
+                       title="作者猫爪" style="text-decoration: none;">
+                        <span class="tx">
+                            <i class="fa fa-fw fa-bomb"></i>
+                        </span>
+                        <!--/*@thymesVar id="bombCount" type="java.lang.Integer"*/-->
+                        <span class="count" th:text="${bombCount}"></span>
+                    </a>
+
+                    <a target="_blank" class="tooltip" style="text-decoration: none;"
+                       th:href="@{/userLetter}" title="发送私信">
+                        <span class="tx">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <span class="count">勾搭</span>
+                    </a>
+
+                </div>
+            </div>
+
+
+                <div class="col-md-12 widget widget_author_posts card" style="height:390px;">
+                    <div class="heading " style="padding-top: 10px;">
+                        <h2 class="widget-title" style="text-align: center;">
+                            <!--/*@thymesVar id="user" type="com.entity.User"*/-->
+                            <a th:href="@{'/authorWorks?uid='+${user?.uid}}" title="查看更多作者的文章。" style="text-decoration: none;">
+                                <i class="fa fa-file-text"></i> 作者文章
+                            </a>
+                        </h2>
+                    </div>
+                    <div class="col-md-12 card-container">
+                        <!--/*@thymesVar id="list" type="java.util.List"*/-->
+                        <div th:each="works : ${list}">
+                            <article class="g-phone-1-2 card xs " style="padding-left: 4px;padding-right: 4px;">
+                                <a class="card-bg" th:href="@{'/worksDisplay?workId='+${works?.workId}}"
+                                   target="_blank" style="text-decoration: none;">
+                                    <div class="thumbnail-container">
+                                        <!--/*@thymesVar id="works" type="com.entity.WorksInfo"*/-->
+                                        <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${works?.workBackground})}"
+                                             width="300" height="200">
+                                    </div>
+                                    <!--/*@thymesVar id="works" type="com.entity.WorksInfo"*/-->
+                                    <h3 class="title" th:text="${works?.workTitle}"></h3>
+                                </a>
+                            </article>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<div th:replace="common/foot :: html"></div>
+
+</body>
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+
+
+<script>
+
+
+    //日期格式化
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+
+
+    $(function () {
+        var bgImage='../acgPic/work-background/'+$("#bg_input").val();
+        $("#main_article").css('background-image',"url("+bgImage+")");
+    })
+
+    $(function () {
+        if ($("#no_login_input").val()==""){
+
+            $("#no_login").show();
+            $("#div_comment").attr('hidden','hidden');
+            $("#bomb_div").attr('hidden','hidden');
+
+        }else {
+
+            $("#no_login").attr('hidden','hidden');
+            $("#div_comment").show();
+        }
+    })
+
+    $("#input_send").click(function () {
+        $.ajax({
+            url:"sendComment",
+            type:"POST",
+            data:$("#comment_form").serialize(),
+            success:function(result){
+
+                if(result.code == 100){//发送成功
+
+                    $("#comment_form textarea").empty();
+                    $("#div_show_message").empty();
+                    $("#div_show_message").append("发送成功");
+
+                    var comments=result.extend.commentList;
+
+                    console.log(comments);
+                    var myHtml="";
+                    $.each(comments,function (index, comment) {
+
+                        var img1="../acgPic/head-image/"+comment.user.headImage;
+                        var p1=comment.commentDetails;
+                        var nickname=comment.user.nickname;
+                        var comment_time=new Date(comment.commentTime);
+
+                        myHtml+="<li class=\"comment byuser even thread-even depth-1 media\">\n" +
+                            "<div id=\"comment-body\" class=\"comment-body\">\n" +
+                            "<div class=\"media-left\">\n" +
+                            "<a " +
+                            "href=\"\" " +
+                            "class=\"avatar-link\" target=\"_blank\">\n" +
+                            "<img " +
+                            "src="+img1+" " +
+                            "class=\"avatar avatar-50 photo\" height=\"50\" width=\"50\">\n" +
+                            "</a>\n" +
+                            "</div>\n" +
+                            "\n" +
+                            "<div class=\"media-body\">\n" +
+                            "<div class=\"comment-content\">\n" +
+                            "<p>" +p1+
+                            "</p>\n" +
+                            "</div>\n" +
+                            "<h4 class=\"media-heading\">\n" +
+                            "<span class=\"comment-meta-data author\">\n" +
+                            "<a " +
+                            "href=\"\" " +
+                            "rel=\"external nofollow\" class=\"url\">" +nickname+
+                            "</a>\n" +
+                            "</span>\n" +
+                            "<time class=\"comment-meta-data time\">\n" +comment_time.Format("yyyy-MM-dd HH:mm:ss")+
+                            "</time>\n" +
+                            "<span class=\"comment-meta-data comment-reply reply\">\n" +
+                            "<a rel=\"nofollow\" class=\"comment-reply-link\"\n" +
+                            "href=\"javascript:;\" onclick=\"\">回复\n" +
+                            "</a>\n" +
+                            "</span>\n" +
+                            "</h4>\n" +
+                            "</div>\n" +
+                            "\n" +
+                            "</div>\n" +
+                            "</li>"
+
+                        $("#comment-ul").html(myHtml);
+
+                    });
+
+
+                }else{
+                    //显示发送失败
+                    $("#div_show_message").append("发送失败");
+                }
+            }
+        })
+    });
+
+
+
+    $(function () {
+        $.ajax({
+
+            url:"addCount",
+            type:"POST",
+            data:$("#count_workId").serialize(),
+            success:function(result) {
+
+                if (result.code == 100) {//发送成功
+
+                    console.log(result.extend.msg);
+                } else {
+                    console.log(result.extend.msg);
+                }
+            }
+        })
+    });
+
+    $("#a_download").click(function () {
+        $.ajax({
+
+            url:"addDownload",
+            type:"POST",
+            data:$("#count_workId").serialize(),
+            success:function(result) {
+
+                var downloadCount=result.extend.downloadCount;
+                if (result.code == 100) {//发送成功
+
+                    $("#post-storage-number").text(downloadCount);
+                    console.log(downloadCount);
+                    //console.log(result.extend.msg);
+                } else {
+                    console.log(result.extend.msg);
+                }
+            }
+        })
+    });
+
+
+
+
+    $("#href1").click(function () {
+
+        $.ajax({
+
+            url:"bombCount3",
+            type:"POST",
+            data:$("#bomb_href_input").serialize(),
+            success:function(result) {
+
+                if (result.code == 100) {//打赏成功
+
+                    $("#bomb_msg").show();
+                    console.log(result.extend.msg);
+                } else {
+                    console.log(result.extend.msg);
+                }
+            }
+
+        })
+    });
+
+
+    $("#href2").click(function () {
+
+        $.ajax({
+
+            url:"bombCount5",
+            type:"POST",
+            data:$("#bomb_href_input").serialize(),
+            success:function(result) {
+
+                if (result.code == 100) {//打赏成功
+
+                    $("#bomb_msg").show();
+                    console.log(result.extend.msg);
+                } else {
+                    console.log(result.extend.msg);
+                }
+            }
+
+        })
+    });
+
+
+    $("#href3").click(function () {
+
+        $.ajax({
+
+            url:"bombCount10",
+            type:"POST",
+            data:$("#bomb_href_input").serialize(),
+            success:function(result) {
+
+                if (result.code == 100) {//打赏成功
+
+                    $("#bomb_msg").show();
+                    console.log(result.extend.msg);
+                } else {
+                    console.log(result.extend.msg);
+                }
+            }
+
+        })
+    });
+
+
+    $(function () {
+
+        $.ajax({
+
+            url:"selectBombCount",
+            type:"POST",
+            data:$("#bomb_href_input").serialize(),
+            success:function(result) {
+
+                var count=result.extend.count;
+                if (result.code == 100) {//打赏成功
+
+                    $("#post-point-number").text(count)
+                    console.log(result.extend.count);
+                } else {
+                    console.log(result.extend.count);
+                }
+            }
+        })
+    });
+
+    $("#href1,#href2,#href3").click(function () {
+
+        $.ajax({
+
+            url:"selectBombCount",
+            type:"POST",
+            data:$("#bomb_href_input").serialize(),
+            success:function(result) {
+
+                var count=result.extend.count;
+                if (result.code == 100) {//打赏成功
+
+                    $("#post-point-number").text(count)
+                    console.log(result.extend.count);
+                } else {
+                    console.log(result.extend.count);
+                }
+            }
+        })
+    });
+
+</script>
+</html>

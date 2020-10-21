@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.WorkMapper">
+
+    <insert id="addWorks" parameterType="com.entity.WorksInfo">
+        insert into works_info (uid, work_title, work_digest, work_content, work_background, disk_url, disk_pwd, disk_zip_pwd, type_name,  work_from) VALUES (#{uid} ,#{workTitle} ,#{workDigest}, #{workContent} ,#{workBackground} ,#{diskUrl},#{diskPwd} ,#{diskZipPwd}  ,#{typeName} , #{workFrom})
+    </insert>
+
+    <update id="updateWorks">
+        update works_info set uid=#{uid} ,work_title=#{workTitle} ,work_digest=#{workDigest} ,work_content=#{workContent} ,work_background=#{workBackground} ,disk_url=#{diskUrl} ,type_name=#{typeName} ,work_from=#{workFrom} where work_id=#{workId}
+    </update>
+
+    <select id="selectWorksByUid" resultType="com.entity.WorksInfo" resultMap="com.mapper.UserMapper.worksMap">
+        select * from works_info w,user u where w.uid=u.uid and w.uid=#{uid} order by work_time desc
+    </select>
+
+    <select id="selectWorksByUidLimit" resultType="com.entity.WorksInfo">
+        select * from works_info where uid=#{uid} limit 6
+    </select>
+
+    <select id="selectWorksByWorkId" resultType="com.entity.WorksInfo">
+        select * from works_info where work_id=#{workId}
+    </select>
+
+    <select id="selectPrivateByUid" resultType="com.entity.PrivateInfo">
+        select * from private_info
+        <if test="uid != null">
+            where another_uid=#{uid}
+        </if>
+    </select>
+    <select id="selectWorksCount" resultType="java.lang.Integer">
+        select count(*) from works_info where uid=#{uid}
+    </select>
+    <insert id="addComment">
+        insert into comment_info ( uid, work_id, comment_details, another_uid) values (#{uid} ,#{workId} ,#{commentDetails} ,#{anotherUid} )
+    </insert>
+
+    <resultMap id="commentMap" type="com.entity.CommentInfo">
+        <id property="commentId" column="comment_id"/>
+        <result property="uid" column="uid"/>
+        <result property="workId" column="work_id"/>
+        <result property="commentTime" column="comment_time"/>
+        <result property="commentDetails" column="comment_details"/>
+        <result property="anotherUid" column="another_uid"/>
+        <association property="user" javaType="com.entity.User">
+            <id property="uid" column="uid"/>
+            <result property="describe" column="describe"/>
+            <result property="email" column="email"/>
+            <result property="headImage" column="head_image"/>
+            <result property="nickname" column="nickname"/>
+            <result property="password" column="password"/>
+            <result property="registerTime" column="register_time"/>
+        </association>
+        <association property="worksInfo" javaType="com.entity.WorksInfo">
+            <id property="workId" column="work_id"/>
+            <result property="uid" column="uid"/>
+            <result property="diskPwd" column="disk_pwd"/>
+            <result property="diskUrl" column="disk_url"/>
+            <result property="diskZipPwd" column="disk_zip_pwd"/>
+            <result property="lookCount" column="look_count"/>
+            <result property="typeName" column="type_name"/>
+            <result property="workBackground" column="work_background"/>
+            <result property="workContent" column="work_content"/>
+            <result property="workDigest" column="work_digest"/>
+            <result property="workFrom" column="work_from"/>
+            <result property="workTime" column="work_time"/>
+            <result property="workTitle" column="work_title"/>
+            <result property="bombCount" column="bomb_count"/>
+        </association>
+        <association property="anotherUser" javaType="com.entity.User">
+            <id property="uid" column="uid"/>
+            <result property="describe" column="describe"/>
+            <result property="email" column="email"/>
+            <result property="headImage" column="head_image"/>
+            <result property="nickname" column="nickname"/>
+            <result property="password" column="password"/>
+            <result property="registerTime" column="register_time"/>
+        </association>
+    </resultMap>
+    <select id="selectCommentByWorkId" resultType="com.entity.CommentInfo" resultMap="commentMap">
+        select * from comment_info c , user u where c.uid=u.uid and c.work_id=#{workId} order by c.comment_time desc
+    </select>
+
+    <select id="selectCommentCountByWorkId" resultType="java.lang.Integer">
+        select count(*) from comment_info where work_id=#{workId}
+    </select>
+
+    <select id="selectCommentByUid" resultMap="commentMap">
+        select * from comment_info c , user u ,works_info w where c.uid=u.uid and c.work_id=w.work_id and c.uid=#{uid} order by c.comment_time desc
+    </select>
+
+    <select id="selectCommentCountByUid" resultType="java.lang.Integer">
+        select count(*) from comment_info where uid=#{uid}
+    </select>
+
+    <select id="selectWorksRandom7" resultType="com.entity.WorksInfo">
+        select * from works_info order by work_time limit 7
+    </select>
+
+    <update id="updateWorkLookCount">
+        update works_info set look_count=look_count+1 where work_id=#{workId}
+    </update>
+
+    <update id="updateBombCountByWorkId3">
+        update works_info set bomb_count=bomb_count+3 where work_id=#{workId}
+    </update>
+    <update id="updateBombCountByWorkId5">
+        update works_info set bomb_count=bomb_count+5 where work_id=#{workId}
+    </update>
+    <update id="updateBombCountByWorkId10">
+        update works_info set bomb_count=bomb_count+10 where work_id=#{workId}
+    </update>
+
+    <insert id="addBombRecord">
+        insert into bomb_record ( uid, another_uid, bomb_num, bomb_history) values (#{uid} ,#{anotherUid} , #{bombNum}  ,#{bombHistory} )
+    </insert>
+    <select id="findBombNumByUid" resultType="com.entity.BombRecord">
+        select * from bomb_record where uid=#{uid} order by bomb_time desc
+    </select>
+    <update id="updateBombNumByUid">
+        update bomb_record set bomb_num=#{bombNum} where uid=#{uid}
+    </update>
+    <select id="selectWorkBombNumByWorkId" resultType="java.lang.Integer">
+        select bomb_count from works_info where work_id=#{workId}
+    </select>
+    <update id="updateWorkDownloadCount">
+        update works_info set download_count=download_count+1 where work_id=#{workId}
+    </update>
+    <select id="findBombByUid" resultType="com.entity.BombRecord">
+        select * from bomb_record where uid=#{uid} group by uid
+    </select>
+
+
+</mapper>

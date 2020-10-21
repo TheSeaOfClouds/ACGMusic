@@ -1,0 +1,182 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ranking</title>
+
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+    <style type="text/css">
+        .recentcomments a {
+            display: inline !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    </style>
+    <style id="custom-background-css">
+        body.custom-background {
+            background-color: #eeeeee;
+        }
+    </style>
+
+</head>
+<body>
+
+<div th:replace="common/top :: html"></div>
+
+
+
+
+<div class="g">
+    <nav class="nav">
+        <a id="href_hot" class="active" href="#">
+            <i class="fa fa-star"></i>
+            推荐
+        </a>
+        <a id="href_new" href="#">
+            <i class="fa fa-refresh"></i>
+            最新
+        </a>
+    </nav>
+
+    <div class="panel-rank">
+
+        <div id="main_div" class="list-group">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+
+
+
+<script>
+
+    $(function () {
+
+        $.ajax({
+
+            url:"rankingHot",
+            type:"POST",
+            success:function(result){
+                //1、解析并显示work数据
+                build_div(result);
+
+            }
+        })
+    });
+
+    $("#href_hot").click(function () {
+
+        $("#href_new").removeClass('active');
+        $("#href_hot").addClass('active');
+
+        $.ajax({
+
+            url:"rankingHot",
+            type:"POST",
+            success:function(result){
+                //1、解析并显示work数据
+                build_div(result);
+
+            }
+        })
+    });
+
+    $("#href_new").click(function () {
+
+        $("#href_hot").removeClass('active');
+        $("#href_new").addClass('active');
+
+        $.ajax({
+
+            url:"rankingNew",
+            type:"POST",
+            success:function(result){
+                //1、解析并显示work数据
+                build_div(result);
+
+            }
+        })
+    });
+
+    function build_div(result) {
+
+        var works=result.extend.Works;
+        var html="";
+
+        $.each(works,function (index, work) {
+
+            var img1="../acgPic/work-background/"+work.workBackground;
+            var img2="../acgPic/head-image/"+work.user.headImage;
+            var href1="worksDisplay?workId="+work.workId;
+            var href2="authorIndex?uid="+work.user.uid;
+
+
+            html+="<div class=\"list-group-item \">\n" +
+                "                <div class=\"row\">\n" +
+                "                    <div class=\"g-tablet-1-6\"><a " +
+                " href="+href1+
+                "                                                 title="+work.workTitle +
+                " target=\"_blank\"\n" +
+                "                                                 class=\"thumbnail-container\"><img class=\"thumbnail\"\n" +
+                "                                                                                  src="+img1+
+                "                                                                                  alt="+work.workTitle +
+                "                                                                                  width=\"320\" height=\"200\"></a></div>\n" +
+                "                    <div class=\"g-tablet-5-6\"><h3 class=\"media-heading\"><a " +
+                " href="+href1+
+                "                                                                           title="+work.workTitle +
+                "                                                                           target=\"_blank\">" +work.workTitle+
+                "</a>\n" +
+                "                    </h3>\n" +
+                "                        <div class=\"excerpt\">" +work.workTitle+
+                "</div>\n" +
+                "                        <div class=\"extra\">\n" +
+                "                            <div class=\"metas row\"><a class=\"author meta g-phone-1-2 g-tablet-1-4 g-desktop-1-5\"\n" +
+                "                                                      href="+href2 +
+                " target=\"_blank\"><img\n" +
+                "                                    src="+img2 +
+                "                                    alt=\"avatar\" width=\"16\" height=\"16\" class=\"avatar\">" +work.user.nickname+
+                " </a>\n" +
+                "                                <div class=\"category meta g-phone-1-2 g-tablet-1-4 g-desktop-1-5\"><i\n" +
+                "                                        class=\"fa fa-folder-open\"></i> <a href=\"\"\n" +
+                "                                                                          rel=\"category tag\">" +work.typeName+
+                "</a></div>\n" +
+                "                                <div class=\"view meta g-phone-1-2 g-tablet-1-4 g-desktop-1-5\"><i\n" +
+                "                                        class=\"fa fa-play-circle\"></i> " +work.lookCount+
+                "                                </div>\n" +
+
+                "                                <div class=\"point meta g-phone-1-2 g-tablet-1-4 g-desktop-1-5\"><i class=\"fa fa-paw\"></i>" +work.bombCount+
+                "                                </div>\n" +
+                "                            </div>\n" +
+                "                        </div>\n" +
+                "                        <i class=\"index\">"+(index+1)+
+                "</i></div>\n" +
+                "                </div>\n" +
+                "            </div>"
+
+
+            $("#main_div").html(html);
+
+        });
+    }
+
+</script>
+
+
+
+</body>
+</html>

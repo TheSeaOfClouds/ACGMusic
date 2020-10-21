@@ -1,0 +1,89 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>download</title>
+
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+
+
+</head>
+<body>
+
+
+<div th:replace="common/top :: html"></div>
+
+<div class="g">
+    <div class="panel singular-post singular-download">
+        <div class="heading">
+            <h2 class="entry-title">
+                <i class="fa fa-file fa-fw"></i> 你正准备下载 《
+                <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                <a th:href="@{'/worksDisplay?workId='+${work?.workId}}" th:text="${work?.workTitle}">
+
+                </a>》
+            </h2>
+        </div>
+        <div class="entry-content content-reset">
+            <p>[post-storage-download]</p>
+        </div>
+        <div class="post-download">
+            <fieldset class="post-download-module">
+                <legend>
+                    <span class="label label-success">百度网盘</span>
+                </legend>
+                <div class="fieldset-content">
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <label for="theme_custom_storage-0-download-pwd" class="addon">
+                                <i class="fa fa-key"></i> 提取密码 </label>
+                            <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                            <input type="text" id="theme_custom_storage-0-download-pwd" class="form-control pwd"
+                                   th:value="${work?.diskPwd}" size="5" onclick="this.select();">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <label for="theme_custom_storage-0-extract-pwd" class="addon">
+                                <i class="fa fa-unlock"></i> 解压密码 </label>
+                            <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                            <input type="text" id="theme_custom_storage-0-extract-pwd" class="form-control pwd"
+                                   th:value="${work?.diskZipPwd}" size="5" onclick="this.select();">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                        <a th:href="${work?.diskUrl}" class="btn btn-lg btn-success btn-block"
+                           rel="nofollow" target="_blank">
+                            <i class="fa fa-cloud-download"></i>立即下载
+                        </a>
+                    </div>
+                </div><!-- /.fieldset-content -->
+            </fieldset>
+        </div><!-- /.post-download -->
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div th:replace="common/foot :: html"></div>
+
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+</body>
+</html>

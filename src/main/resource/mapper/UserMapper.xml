@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+
+
+    <insert id="addUser" parameterType="com.entity.User">
+        insert into user(nickname,email,password) values (#{nickname} ,#{email} ,#{password} )
+    </insert>
+    <select id="findUserByEmailAndPassword" resultType="com.entity.User">
+        select * from user where email=#{email} and password=#{password}
+    </select>
+    <update id="updateHeadImage">
+        update user set head_image=#{headImage} where uid=#{uid}
+    </update>
+    <select id="findUserByUid" resultType="com.entity.User">
+        select * from user where uid=#{uid}
+    </select>
+
+    <update id="updateUserPassword">
+        update user set password=#{password} where uid=#{uid}
+    </update>
+
+    <update id="updateUserIfo">
+        <if test="nickname != null">
+            update user set nickname=#{nickname} , `describe`=#{describe} where uid=#{uid}
+        </if>
+    </update>
+
+    <insert id="addPrivateMsg" parameterType="com.entity.PrivateInfo">
+        <if test="uid != null and anotherUid != null">
+            insert into private_info ( uid, another_uid, letter_content,state) values (#{uid} ,#{anotherUid} ,#{letterContent} ,#{state} )
+        </if>
+    </insert>
+
+
+
+    <resultMap id="worksMap" type="com.entity.WorksInfo">
+        <id property="workId" column="work_id"/>
+        <result property="uid" column="uid"/>
+        <result property="diskPwd" column="disk_pwd"/>
+        <result property="diskUrl" column="disk_url"/>
+        <result property="diskZipPwd" column="disk_zip_pwd"/>
+        <result property="lookCount" column="look_count"/>
+        <result property="typeName" column="type_name"/>
+        <result property="workBackground" column="work_background"/>
+        <result property="workContent" column="work_content"/>
+        <result property="workDigest" column="work_digest"/>
+        <result property="workFrom" column="work_from"/>
+        <result property="workTime" column="work_time"/>
+        <result property="workTitle" column="work_title"/>
+        <result property="bombCount" column="bomb_count"/>
+        <association property="user" javaType="com.entity.User">
+            <id property="uid" column="uid"/>
+            <result property="describe" column="describe"/>
+            <result property="email" column="email"/>
+            <result property="headImage" column="head_image"/>
+            <result property="nickname" column="nickname"/>
+            <result property="password" column="password"/>
+            <result property="registerTime" column="register_time"/>
+        </association>
+        <!--<collection property="bombRecords" ofType="com.entity.BombRecord">
+            <id property="recordId" column="record_id"/>
+            <result property="uid" column="uid"/>
+            <result property="bombNum" column="bomb_num"/>
+            <result property="bombHistory" column="bomb_history"/>
+            <result property="anotherUid" column="another_uid"/>
+        </collection>-->
+    </resultMap>
+
+    <select id="selectAcgByTypeLimit" resultType="com.entity.WorksInfo" resultMap="worksMap">
+        select * from works_info w,user u where w.uid=u.uid and w.type_name=#{typeName} limit 6
+    </select>
+
+    <select id="selectAcgByType" resultType="com.entity.WorksInfo" resultMap="worksMap">
+        select * from works_info w,user u where w.uid=u.uid and w.type_name=#{typeName}
+    </select>
+
+    <select id="selectCommentLimit" resultType="com.entity.CommentInfo" resultMap="com.mapper.WorkMapper.commentMap">
+        select * from comment_info c , user u ,works_info w where c.uid=u.uid and c.work_id=w.work_id order by c.comment_time desc limit 6
+    </select>
+
+    <select id="selectWorksLikeName" resultMap="worksMap">
+        select * from works_info w,user u
+        <where>
+            <if test="s != null and s != ''">
+                w.uid=u.uid and work_title like concat(concat('%',#{s}),'%') or work_digest like concat(concat('%',#{s}),'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findUserByEmail" resultType="com.entity.User">
+        select * from user where email=#{email}
+    </select>
+    <select id="selectWorksByLookNum" resultMap="worksMap">
+        select * from works_info w, user u where w.uid=u.uid order by look_count desc limit 20
+    </select>
+
+    <select id="selectWorksByTime" resultMap="worksMap">
+        select * from works_info w, user u where w.uid=u.uid order by work_time desc limit 20
+    </select>
+
+    <select id="selectWorksByLookNumLimit6" resultMap="worksMap">
+        select * from works_info order by look_count desc limit 6
+    </select>
+
+
+    <resultMap id="userMap" type="com.entity.User">
+        <id property="uid" column="uid"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="password" column="password"/>
+        <result property="nickname" column="nickname"/>
+        <result property="headImage" column="head_image"/>
+        <result property="email" column="email"/>
+        <result property="describe" column="describe"/>
+        <collection property="bombRecords" ofType="com.entity.BombRecord" column="uid">
+            <id property="recordId" column="record_id"/>
+            <result property="uid" column="uid"/>
+            <result property="anotherUid" column="another_uid"/>
+            <result property="bombHistory" column="bomb_history"/>
+            <result property="bombNum" column="bomb_num"/>
+            <result property="bombTime" column="bomb_time"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectUsersByBombNum" resultMap="userMap">
+        select * from user u , bomb_record b where u.uid=b.uid group by u.uid order by b.bomb_num desc
+    </select>
+    <select id="selectUsersByBombNumLimit6" resultMap="userMap">
+        select * from user u , bomb_record b where u.uid=b.uid group by u.uid order by b.bomb_num desc limit 6
+    </select>
+    <select id="selectWorksByLookNumLimit4" resultMap="worksMap">
+        select * from works_info w,user u where w.uid=u.uid order by look_count desc limit 4
+    </select>
+
+
+
+</mapper>

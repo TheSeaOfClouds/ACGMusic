@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AdminMapper">
+
+
+    <select id="selectAdmin" resultType="com.entity.Admin">
+        select * from admin where username=#{username} and password=#{password}
+    </select>
+
+    <select id="selectAllWorksInfo" resultType="com.entity.WorksInfo">
+        select * from works_info order by work_time desc
+    </select>
+
+    <delete id="deleteWorkByWorkId">
+        delete from works_info where work_id=#{workId}
+    </delete>
+
+    <select id="selectAllComment" resultType="com.entity.CommentInfo">
+        select * from comment_info order by comment_time desc
+    </select>
+
+    <delete id="deleteCommentByCommentId">
+        delete from comment_info where comment_id=#{commentId}
+    </delete>
+
+    <select id="selectAllUser" resultType="com.entity.User">
+        select * from user order by uid asc
+    </select>
+
+    <delete id="deleteUserByUid">
+        delete from user where uid=#{uid}
+    </delete>
+
+</mapper>

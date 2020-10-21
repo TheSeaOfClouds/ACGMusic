@@ -1,0 +1,99 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>search</title>
+
+    <link rel='stylesheet' id='awesome-css' th:href="@{/static/font-awesome/4.4.0/css/font-awesome.min.css}" type='text/css' media='all'>
+    <link rel='stylesheet' id='frontend-css' th:href="@{/static/wp-content/themes/mx/assets/css/frontend-1564588134.css}" type='text/css' media='all'>
+
+    <script th:src="@{/static/js/jQuery-3.4.1.js}"></script>
+</head>
+
+<body class="search search-results logged-in">
+
+
+
+<div th:replace="common/top :: html"></div>
+
+    <div class="g">
+        <div id="main">
+            <form id="fm-search-page" th:action="@{/search}">
+                <label for="search-page-s">
+                    <i class="fa fa-search fa-fw" style="padding-top: 8px;"></i>
+                </label>
+                <input type="search" id="search-page-s" name="s" class="form-control" placeholder="输入关键字搜索" title="输入关键字搜索">
+            </form>
+            <div class="row">
+                <!--/*@thymesVar id="list" type="java.util.List"*/-->
+                <article class="g-tablet-1-2 g-tablet-1-4 card lg " th:each="work , workStat : ${list}">
+                    <div class="card-bg">
+                        <!--/*@thymesVar id="work" type="com.entity.WorksInfo"*/-->
+                        <a th:href="@{'/worksDisplay?workId='+${work?.workId}}" th:title="${work?.workTitle}" class="thumbnail-container" target="_blank">
+                            <img class="thumbnail" th:src="@{../acgPic/work-background/{filename}(filename=${work?.workBackground})}" th:alt="${work?.workTitle}" width="320" height="200">
+
+                            <div class="card-cat">
+                                <span style="background-color:rgba(238,145,111,.8);" th:text="${work?.typeName}"></span>
+                            </div>
+                        </a>
+                        <a th:href="@{'/worksDisplay?workId='+${work?.workId}}" th:title="${work?.workTitle}" class="card-title" target="_blank">
+                            <h3 th:text="${work?.workTitle}"></h3>
+                        </a>
+                        <div class="card-meta">
+                            <a th:href="@{'/authorIndex?uid='+${work?.uid}}" class="meta author" th:title="${work?.user?.nickname}" target="_blank">
+                                <img width="32" height="32" th:src="@{../acgPic/head-image/{filename}(filename=${work?.user?.headImage})}" th:alt="${work?.user?.nickname}" class="avatar">
+                                <span class="tx" th:text="${work?.user?.nickname}"></span>
+                            </a>
+                            <span class="meta views" title="查看数">
+                                <i class="fa fa-play-circle"></i> 1352
+                            </span>
+
+                            <!-- comments count -->
+                            <span class="meta comments-count" title="评论">
+						        <!--/*@thymesVar id="commentCountList" type="java.util.List"*/-->
+						        <i class="fa fa-comment" th:text="${commentCountList?.get(workStat.index)}"></i>
+                            </span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <div class="area-pagination archive-pagination">
+            </div>
+        </div><!-- /#main -->
+    </div><!-- /.container -->
+
+
+
+    <a href="javascript:;" id="back-to-top" class="fa fa-arrow-up fa-2x" title="返回顶部"></a>
+    <div th:replace="common/foot :: html"></div>
+
+
+
+
+
+    <script>
+        window.THEME_CONFIG = {"vars":{"locale":"zh_CN","theme_js":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/js\/","theme_css":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/css\/","theme_images":"http:\/\/www.acgjc.com\/wp-content\/themes\/mx\/assets\/images\/","process_url":"http:\/\/www.acgjc.com\/wp-admin\/admin-ajax.php","timestamp":"1564588134"},"lang":{"M01":"\u52a0\u8f7d\u4e2d\uff0c\u8bf7\u7a0d\u5019\u2026","E01":"\u62b1\u6b49\uff0c\u670d\u52a1\u5668\u6b63\u5fd9\uff0c\u65e0\u6cd5\u54cd\u5e94\u4f60\u7684\u8bf7\u6c42\uff0c\u8bf7\u7a0d\u5019\u91cd\u8bd5\u3002"}};
+    </script>
+    <script type="text/javascript">
+        window._wpemojiSettings = {"baseUrl":"http:\/\/cdnjs.cloudflare.com\/ajax\/libs\/twemoji\/1.4.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.acgjc.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}};
+        !function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+<script type='text/javascript' th:src="@{/static/wp-admin/admin-ajax-dynamic_request.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-content/themes/mx/assets/js/frontend-entry-1564588134.js}"></script>
+<script type='text/javascript' th:src="@{/static/wp-includes/js/wp-embed.min-4.9.10.js}"></script>
+
+
+
+</body>
+</html>
